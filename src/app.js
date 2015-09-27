@@ -1,11 +1,9 @@
-
-
 var MenuLayer = cc.Layer.extend({
-    ctor : function(){
+    ctor: function () {
         //1. call super class's ctor function
         this._super();
     },
-    init:function(){
+    init: function () {
         //call super class's super function
         this._super();
 
@@ -25,7 +23,7 @@ var MenuLayer = cc.Layer.extend({
         cc.MenuItemFont.setFontSize(60);
 
         //6.create a menu and assign onPlay event callback to it
-        var menuItemPlay= new cc.MenuItemSprite(
+        var menuItemPlay = new cc.MenuItemSprite(
             new cc.Sprite(res.button_start1), // normal state image
             new cc.Sprite(res.button_start2), //select state image
             this.onPlay, this);
@@ -34,14 +32,14 @@ var MenuLayer = cc.Layer.extend({
         this.addChild(menu);
     },
 
-    onPlay : function(){
+    onPlay: function () {
         cc.log("==onplay clicked");
-        //cc.director.runScene(new PlayScene());
+        cc.director.runScene(new PlayScene());
     }
 });
 
 var MenuScene = cc.Scene.extend({
-    onEnter:function () {
+    onEnter: function () {
         this._super();
         var layer = new MenuLayer();
         layer.init();
