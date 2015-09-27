@@ -1,0 +1,5 @@
+.idea/
+samples/
+linux-build/
+frameworks/
+*.bak
