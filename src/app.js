@@ -1,45 +1,50 @@
 
-var HelloWorldLayer = cc.Layer.extend({
-    sprite:null,
-    ctor:function () {
-        //////////////////////////////
-        // 1. super init first
+
+var MenuLayer = cc.Layer.extend({
+    ctor : function(){
+        //1. call super class's ctor function
+        this._super();
+    },
+    init:function(){
+        //call super class's super function
         this._super();
 
-        /////////////////////////////
-        // 2. add a menu item with "X" image, which is clicked to quit the program
-        //    you may modify it.
-        // ask the window size
-        var size = cc.winSize;
+        //2. get the screen size of your game canvas
+        var winsize = cc.director.getWinSize();
 
-        /////////////////////////////
-        // 3. add your codes below...
-        // add a label shows "Hello World"
-        // create and initialize a label
-        var helloLabel = new cc.LabelTTF("Hello World", "Arial", 38);
-        // position the label on the center of the screen
-        helloLabel.x = size.width / 2;
-        helloLabel.y = size.height / 2 + 200;
-        // add the label as a child to this layer
-        this.addChild(helloLabel, 5);
+        //3. calculate the center point
+        var centerpos = cc.p(winsize.width / 2, winsize.height / 2);
+        var buttonpos = cc.p(winsize.width / 2, winsize.height / 4);
 
-        // add "HelloWorld" splash screen"
-        this.sprite = new cc.Sprite(res.HelloWorld_png);
-        this.sprite.attr({
-            x: size.width / 2,
-            y: size.height / 2
-        });
-        this.addChild(this.sprite, 0);
+        //4. create a background image and set it's position at the center of the screen
+        var spritebg = new cc.Sprite(res.bg);
+        spritebg.setPosition(centerpos);
+        this.addChild(spritebg);
 
-        return true;
+        //5.
+        cc.MenuItemFont.setFontSize(60);
+
+        //6.create a menu and assign onPlay event callback to it
+        var menuItemPlay= new cc.MenuItemSprite(
+            new cc.Sprite(res.button_start1), // normal state image
+            new cc.Sprite(res.button_start2), //select state image
+            this.onPlay, this);
+        var menu = new cc.Menu(menuItemPlay);  //7. create the menu
+        menu.setPosition(buttonpos);
+        this.addChild(menu);
+    },
+
+    onPlay : function(){
+        cc.log("==onplay clicked");
+        //cc.director.runScene(new PlayScene());
     }
 });
 
-var HelloWorldScene = cc.Scene.extend({
+var MenuScene = cc.Scene.extend({
     onEnter:function () {
         this._super();
-        var layer = new HelloWorldLayer();
+        var layer = new MenuLayer();
+        layer.init();
         this.addChild(layer);
     }
 });
-
