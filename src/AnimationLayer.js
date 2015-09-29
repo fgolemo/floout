@@ -3,9 +3,13 @@ var AnimationLayer = cc.Layer.extend({
     paddleBody: null,
     paddleShape: null,
     paddleSprite: null,
+    paddleSize: null,
     winsize: null,
     centerpos: null,
-    paddleSize: null,
+    ballBody: null,
+    ballShape: null,
+    ballSprite: null,
+    ballSize: null,
 
     ctor: function (space) {
         this._super();
@@ -26,6 +30,7 @@ var AnimationLayer = cc.Layer.extend({
         this.centerpos = cc.p(this.winsize.width / 2, this.winsize.height / 2);
 
         this.initPaddle();
+        this.initBall();
 
         this.scheduleUpdate();
     },
@@ -42,11 +47,33 @@ var AnimationLayer = cc.Layer.extend({
 
     },
 
+    initBall: function () {
+        this.ballSprite = new cc.PhysicsSprite(res.ball);
+        this.ballSize = this.ballSprite.getContentSize();
+        this.ballBody = new cp.Body(1, cp.momentForBox(1, this.ballSize.width, this.ballSize.height));
+        console.log(this.centerpos.x + this.paddleSize.width / 2 - this.ballSize.width / 2);
+        console.log(this.paddleSize.height + this.ballSize.height / 2);
+        this.ballBody.p = cc.p(
+            this.centerpos.x + this.paddleSize.width / 2 - this.ballSize.width / 2,
+            this.paddleSize.height + this.ballSize.height / 2
+        );
+        this.space.addBody(this.ballBody);
+        this.ballShape = new cp.BoxShape(this.ballBody, this.ballSize.width, this.ballSize.height);
+        this.ballShape.setElasticity(0.999);
+        this.space.addShape(this.ballShape);
+
+        this.ballSprite.setBody(this.ballBody);
+        //this.ballSprite.runAction(this.runningAction);
+
+        this.addChild(this.ballSprite);
+    },
+
     initPaddle: function () {
         this.paddleSprite = new cc.PhysicsSprite(res.paddle);
         this.paddleSize = this.paddleSprite.getContentSize();
         this.paddleBody = new cp.Body(1, cp.momentForBox(1, this.paddleSize.width, this.paddleSize.height));
         this.paddleBody.p = cc.p(this.centerpos.x, this.paddleSize.height / 2);
+
         //this.paddleBody.p = centerpos;
         //this.paddleBody.applyImpulse(cp.v(100, 100), cp.v(0, 10));//run speed
         this.space.addBody(this.paddleBody);
@@ -66,15 +93,14 @@ var AnimationLayer = cc.Layer.extend({
                 var touch = touches[0];
                 var delta = touch.getDelta();
                 delta.y = 0;
-                console.log(delta);
                 //var node = event.getCurrentTarget().getChildByTag(TAG_TILE_MAP);
                 var node = scope.paddleSprite;
                 var diff = cc.pAdd(delta, node.getPosition());
-                if (diff.x<scope.paddleSize.width/2) {
-                    diff.x=scope.paddleSize.width/2;
+                if (diff.x < scope.paddleSize.width / 2) {
+                    diff.x = scope.paddleSize.width / 2;
                 }
-                if (diff.x>scope.winsize.width-scope.paddleSize.width/2) {
-                    diff.x=scope.winsize.width-scope.paddleSize.width/2;
+                if (diff.x > scope.winsize.width - scope.paddleSize.width / 2) {
+                    diff.x = scope.winsize.width - scope.paddleSize.width / 2;
                 }
                 node.setPosition(diff);
             }
