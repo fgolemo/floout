@@ -25,25 +25,30 @@ var BackgroundLayer = cc.Layer.extend({
             cp.v(g_borders.left, g_borders.bottom),// start point
             cp.v(winsize.width-g_borders.right, g_borders.bottom),// MAX INT:4294967295
             0);// thickness of wall
+        wallBottom.setElasticity(0.99);
         this.space.addStaticShape(wallBottom);
 
         var wallTop = new cp.SegmentShape(this.space.staticBody,
             cp.v(g_borders.left, winsize.height-g_borders.top),// start point
             cp.v(winsize.width-g_borders.right, winsize.height-g_borders.top),// MAX INT:4294967295
             0);// thickness of wall
+        wallTop.setElasticity(0.99);
         this.space.addStaticShape(wallTop);
 
         var wallLeft = new cp.SegmentShape(this.space.staticBody,
             cp.v(g_borders.left, g_borders.bottom),// start point
             cp.v(g_borders.left, winsize.height-g_borders.top),// MAX INT:4294967295
             0);// thickness of wall
+        wallLeft.setElasticity(0.99);
         this.space.addStaticShape(wallLeft);
 
         var wallRight = new cp.SegmentShape(this.space.staticBody,
             cp.v(winsize.width-g_borders.right, g_borders.bottom),// start point
             cp.v(winsize.width-g_borders.right, winsize.height-g_borders.top),// MAX INT:4294967295
             0);// thickness of wall
+        wallRight.setElasticity(0.99);
         this.space.addStaticShape(wallRight);
+
     }
 
 });

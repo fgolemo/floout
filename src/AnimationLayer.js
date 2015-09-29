@@ -27,10 +27,11 @@ var AnimationLayer = cc.Layer.extend({
         this.paddleBody = new cp.Body(1, cp.momentForBox(1, paddleSize.width, paddleSize.height));
         //this.paddleBody.p = cc.p(0,0);
         this.paddleBody.p = centerpos;
-        this.paddleBody.applyImpulse(cp.v(500, 500), cp.v(0, 100));//run speed
+        this.paddleBody.applyImpulse(cp.v(100, 100), cp.v(0, 10));//run speed
         this.space.addBody(this.paddleBody);
         //init shape
         this.paddleShape = new cp.BoxShape(this.paddleBody, paddleSize.width, paddleSize.height);
+        this.paddleShape.setElasticity(0.9);
         this.space.addShape(this.paddleShape);
 
         this.paddleSprite.setBody(this.paddleBody);
