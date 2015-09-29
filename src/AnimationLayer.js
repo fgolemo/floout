@@ -3,6 +3,8 @@ var AnimationLayer = cc.Layer.extend({
     paddleBody: null,
     paddleShape: null,
     paddleSprite: null,
+    winsize: null,
+    centerpos: null,
 
     ctor: function (space) {
         this._super();
@@ -19,26 +21,10 @@ var AnimationLayer = cc.Layer.extend({
         //init  actions
         this.initAction();
 
-        var winsize = cc.director.getWinSize();
-        var centerpos = cc.p(winsize.width / 2, winsize.height / 2);
+        this.winsize = cc.director.getWinSize();
+        this.centerpos = cc.p(this.winsize.width / 2, this.winsize.height / 2);
 
-        this.paddleSprite = new cc.PhysicsSprite(res.paddle);
-        var paddleSize = this.paddleSprite.getContentSize();
-        this.paddleBody = new cp.Body(1, cp.momentForBox(1, paddleSize.width, paddleSize.height));
-        //this.paddleBody.p = cc.p(0,0);
-        this.paddleBody.p = centerpos;
-        this.paddleBody.applyImpulse(cp.v(100, 100), cp.v(0, 10));//run speed
-        this.space.addBody(this.paddleBody);
-        //init shape
-        this.paddleShape = new cp.BoxShape(this.paddleBody, paddleSize.width, paddleSize.height);
-        this.paddleShape.setElasticity(0.9);
-        this.space.addShape(this.paddleShape);
-
-        this.paddleSprite.setBody(this.paddleBody);
-        //this.paddleSprite.runAction(this.runningAction);
-
-        this.addChild(this.paddleSprite);
-
+        this.initPaddle();
 
         this.scheduleUpdate();
     },
@@ -53,6 +39,23 @@ var AnimationLayer = cc.Layer.extend({
 
     update: function (dt) {
 
-    }
+    },
 
+    initPaddle: function () {
+        this.paddleSprite = new cc.PhysicsSprite(res.paddle);
+        var paddleSize = this.paddleSprite.getContentSize();
+        this.paddleBody = new cp.Body(1, cp.momentForBox(1, paddleSize.width, paddleSize.height));
+        this.paddleBody.p = cc.p(this.centerpos.x, paddleSize.height / 2);
+        //this.paddleBody.p = centerpos;
+        //this.paddleBody.applyImpulse(cp.v(100, 100), cp.v(0, 10));//run speed
+        this.space.addBody(this.paddleBody);
+        this.paddleShape = new cp.BoxShape(this.paddleBody, paddleSize.width, paddleSize.height);
+        this.paddleShape.setElasticity(0.99);
+        this.space.addShape(this.paddleShape);
+
+        this.paddleSprite.setBody(this.paddleBody);
+        //this.paddleSprite.runAction(this.runningAction);
+
+        this.addChild(this.paddleSprite);
+    }
 });
