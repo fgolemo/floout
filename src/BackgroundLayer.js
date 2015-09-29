@@ -18,44 +18,36 @@ var BackgroundLayer = cc.Layer.extend({
         this.addChild(spritebg);
         this.setupWalls();
     },
-    setupWalls: function(){
+    setupWalls: function () {
         // set up Walls
         var winsize = cc.director.getWinSize();
         var wallBottom = new cp.SegmentShape(this.space.staticBody,
-            cp.v(g_borders.left, g_borders.bottom-g_borders.bottom_discrepancy),// start point
-            cp.v(winsize.width-g_borders.right, g_borders.bottom-g_borders.bottom_discrepancy),// MAX INT:4294967295
-            0);// thickness of wall
-        //wallBottom.setElasticity(0.99);
+            cp.v(g_borders.left, g_borders.bottom - g_borders.bottom_discrepancy),// start point
+            cp.v(winsize.width - g_borders.right, g_borders.bottom - g_borders.bottom_discrepancy),// MAX INT:4294967295
+            0); // wall thickness
         wallBottom.setCollisionType(CollisionTag.wallBottom);
         wallBottom.setSensor(true);
         this.space.addStaticShape(wallBottom);
 
-        //var wallBottomLow = new cp.SegmentShape(this.space.staticBody,
-        //    cp.v(0, 0),// start point
-        //    cp.v(winsize.width, 0),// MAX INT:4294967295
-        //    0);// thickness of wall
-        //wallBottomLow.setElasticity(0.99);
-        //this.space.addStaticShape(wallBottomLow);
-
         var wallTop = new cp.SegmentShape(this.space.staticBody,
-            cp.v(g_borders.left, winsize.height-g_borders.top),// start point
-            cp.v(winsize.width-g_borders.right, winsize.height-g_borders.top),// MAX INT:4294967295
-            0);// thickness of wall
+            cp.v(g_borders.left, winsize.height - g_borders.top),
+            cp.v(winsize.width - g_borders.right, winsize.height - g_borders.top),
+            0);
         wallTop.setElasticity(0.99);
         wallTop.setCollisionType(CollisionTag.wallNormal);
         this.space.addStaticShape(wallTop);
 
         var wallLeft = new cp.SegmentShape(this.space.staticBody,
-            cp.v(g_borders.left, g_paddleSize.y+1),// start point
-            cp.v(g_borders.left, winsize.height-g_borders.top),// MAX INT:4294967295
-            0);// thickness of wall
+            cp.v(g_borders.left, g_paddleSize.y + 1),
+            cp.v(g_borders.left, winsize.height - g_borders.top),
+            0);
         wallLeft.setElasticity(0.99);
         wallLeft.setCollisionType(CollisionTag.wallNormal);
         this.space.addStaticShape(wallLeft);
 
         var wallRight = new cp.SegmentShape(this.space.staticBody,
-            cp.v(winsize.width-g_borders.right, g_paddleSize.y+1),// start point
-            cp.v(winsize.width-g_borders.right, winsize.height-g_borders.top),// MAX INT:4294967295
+            cp.v(winsize.width - g_borders.right, g_paddleSize.y + 1),// start point
+            cp.v(winsize.width - g_borders.right, winsize.height - g_borders.top),// MAX INT:4294967295
             0);// thickness of wall
         wallRight.setElasticity(0.99);
         wallRight.setCollisionType(CollisionTag.wallNormal);
