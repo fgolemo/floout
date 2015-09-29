@@ -60,12 +60,15 @@ var AnimationLayer = cc.Layer.extend({
         this.space.addBody(this.ballBody);
         this.ballShape = new cp.BoxShape(this.ballBody, this.ballSize.width, this.ballSize.height);
         this.ballShape.setElasticity(0.999);
+        this.ballShape.setCollisionType(CollisionTag.ball);
         this.space.addShape(this.ballShape);
 
         this.ballSprite.setBody(this.ballBody);
         //this.ballSprite.runAction(this.runningAction);
 
         this.addChild(this.ballSprite);
+        this.space.addCollisionHandler(CollisionTag.wallBottom, CollisionTag.ball,
+            this.collisionGroundBegin.bind(this), null, null, null);
     },
 
     initPaddle: function () {
@@ -78,6 +81,7 @@ var AnimationLayer = cc.Layer.extend({
         //this.paddleShape = new cp.CircleShape(this.paddleBody, this.paddleSize.width*3/4, cp.v(0,0));
         this.paddleShape = new cp.CircleShape(this.paddleBody, this.paddleSize.width*2, cp.v(0,-this.paddleSize.height*12/8));
         this.paddleShape.setElasticity(0.99);
+        this.paddleShape.setCollisionType(CollisionTag.paddle);
         this.space.addShape(this.paddleShape);
 
         this.paddleSprite.setBody(this.paddleBody);
@@ -109,8 +113,13 @@ var AnimationLayer = cc.Layer.extend({
     fireBall: function () {
         if(!this.ballLaunched) {
             console.log("firing ball");
-            this.ballBody.applyImpulse(cp.v(400, 200), cp.v(0, 0));
+            this.ballBody.applyImpulse(cp.v(200, 400), cp.v(0, 0));
             this.ballLaunched = true;
         }
+    },
+
+    collisionGroundBegin: function(arbiter, space) {
+        console.log("ball is out");
+        this.ballBody.setVel(cp.v(0,0));
     }
 });

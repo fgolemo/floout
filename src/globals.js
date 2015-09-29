@@ -2,7 +2,8 @@ g_borders = {
     top: 55,
     bottom: 50,
     left: 5,
-    right: 5
+    right: 5,
+    bottom_discrepancy: 5
 };
 
 g_paddleSize = {
@@ -23,5 +24,8 @@ if (typeof TagOfLayer == "undefined") {
 
 if (typeof CollisionTag == "undefined") {
     var CollisionTag = {};
-    CollisionTag.bottomWall = 0;
+    CollisionTag.wallBottom = 0;
+    CollisionTag.ball = 1;
+    CollisionTag.wallNormal = 2;
+    CollisionTag.paddle = 3;
 }
