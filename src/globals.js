@@ -10,6 +10,8 @@ g_paddleSize = {
     y: 55
 };
 
+g_maxint = 4294967295;
+
 if (typeof TagOfLayer == "undefined") {
     var TagOfLayer = {};
     TagOfLayer.background = 0;

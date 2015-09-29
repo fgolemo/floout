@@ -30,6 +30,13 @@ var BackgroundLayer = cc.Layer.extend({
         wallBottom.setSensor(true);
         this.space.addStaticShape(wallBottom);
 
+        //var wallBottomLow = new cp.SegmentShape(this.space.staticBody,
+        //    cp.v(0, 0),// start point
+        //    cp.v(winsize.width, 0),// MAX INT:4294967295
+        //    0);// thickness of wall
+        //wallBottomLow.setElasticity(0.99);
+        //this.space.addStaticShape(wallBottomLow);
+
         var wallTop = new cp.SegmentShape(this.space.staticBody,
             cp.v(g_borders.left, winsize.height-g_borders.top),// start point
             cp.v(winsize.width-g_borders.right, winsize.height-g_borders.top),// MAX INT:4294967295

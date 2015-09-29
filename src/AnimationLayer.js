@@ -10,6 +10,7 @@ var AnimationLayer = cc.Layer.extend({
     ballShape: null,
     ballSprite: null,
     ballSize: null,
+    ballLaunched: false,
 
     ctor: function (space) {
         this._super();
@@ -31,6 +32,7 @@ var AnimationLayer = cc.Layer.extend({
 
         this.initPaddle();
         this.initBall();
+        this.schedule(this.fireBall, 1);
 
         this.scheduleUpdate();
     },
@@ -50,9 +52,7 @@ var AnimationLayer = cc.Layer.extend({
     initBall: function () {
         this.ballSprite = new cc.PhysicsSprite(res.ball);
         this.ballSize = this.ballSprite.getContentSize();
-        this.ballBody = new cp.Body(1, cp.momentForBox(1, this.ballSize.width, this.ballSize.height));
-        console.log(this.centerpos.x + this.paddleSize.width / 2 - this.ballSize.width / 2);
-        console.log(this.paddleSize.height + this.ballSize.height / 2);
+        this.ballBody = new cp.Body(1, cp.momentForBox(g_maxint, this.ballSize.width, this.ballSize.height));
         this.ballBody.p = cc.p(
             this.centerpos.x + this.paddleSize.width / 2 - this.ballSize.width / 2,
             this.paddleSize.height + this.ballSize.height / 2
@@ -71,12 +71,10 @@ var AnimationLayer = cc.Layer.extend({
     initPaddle: function () {
         this.paddleSprite = new cc.PhysicsSprite(res.paddle);
         this.paddleSize = this.paddleSprite.getContentSize();
-        this.paddleBody = new cp.Body(1, cp.momentForBox(1, this.paddleSize.width, this.paddleSize.height));
+        this.paddleBody = new cp.Body(g_maxint, cp.momentForBox(g_maxint, this.paddleSize.width, this.paddleSize.height));
         this.paddleBody.p = cc.p(this.centerpos.x, this.paddleSize.height / 2);
 
-        //this.paddleBody.p = centerpos;
-        //this.paddleBody.applyImpulse(cp.v(100, 100), cp.v(0, 10));//run speed
-        this.space.addBody(this.paddleBody);
+        //this.space.addBody(this.paddleBody);
         this.paddleShape = new cp.BoxShape(this.paddleBody, this.paddleSize.width, this.paddleSize.height);
         this.paddleShape.setElasticity(0.99);
         this.space.addShape(this.paddleShape);
@@ -105,5 +103,13 @@ var AnimationLayer = cc.Layer.extend({
                 node.setPosition(diff);
             }
         }, this);
+    },
+
+    fireBall: function () {
+        if(!this.ballLaunched) {
+            console.log("firing ball");
+            this.ballBody.applyImpulse(cp.v(300, 200), cp.v(0, 0));
+            this.ballLaunched = true;
+        }
     }
 });
