@@ -19,6 +19,10 @@ var MenuLayer = cc.Layer.extend({
         spritebg.setPosition(centerpos);
         this.addChild(spritebg);
 
+        var logo = new cc.Sprite(res.logo);
+        logo.setPosition(cc.p(winsize.width / 2, winsize.height *1/2));
+        this.addChild(logo);
+
         //5.
         cc.MenuItemFont.setFontSize(60);
 
@@ -30,6 +34,8 @@ var MenuLayer = cc.Layer.extend({
         var menu = new cc.Menu(menuItemPlay);  //7. create the menu
         menu.setPosition(buttonpos);
         this.addChild(menu);
+
+        this.addChild(new StatusLayer(), 0, TagOfLayer.Status);
     },
 
     onPlay: function () {
