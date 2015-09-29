@@ -5,6 +5,7 @@ var AnimationLayer = cc.Layer.extend({
     paddleSprite: null,
     winsize: null,
     centerpos: null,
+    paddleSize: null,
 
     ctor: function (space) {
         this._super();
@@ -43,13 +44,13 @@ var AnimationLayer = cc.Layer.extend({
 
     initPaddle: function () {
         this.paddleSprite = new cc.PhysicsSprite(res.paddle);
-        var paddleSize = this.paddleSprite.getContentSize();
-        this.paddleBody = new cp.Body(1, cp.momentForBox(1, paddleSize.width, paddleSize.height));
-        this.paddleBody.p = cc.p(this.centerpos.x, paddleSize.height / 2);
+        this.paddleSize = this.paddleSprite.getContentSize();
+        this.paddleBody = new cp.Body(1, cp.momentForBox(1, this.paddleSize.width, this.paddleSize.height));
+        this.paddleBody.p = cc.p(this.centerpos.x, this.paddleSize.height / 2);
         //this.paddleBody.p = centerpos;
         //this.paddleBody.applyImpulse(cp.v(100, 100), cp.v(0, 10));//run speed
         this.space.addBody(this.paddleBody);
-        this.paddleShape = new cp.BoxShape(this.paddleBody, paddleSize.width, paddleSize.height);
+        this.paddleShape = new cp.BoxShape(this.paddleBody, this.paddleSize.width, this.paddleSize.height);
         this.paddleShape.setElasticity(0.99);
         this.space.addShape(this.paddleShape);
 
@@ -57,5 +58,26 @@ var AnimationLayer = cc.Layer.extend({
         //this.paddleSprite.runAction(this.runningAction);
 
         this.addChild(this.paddleSprite);
+
+        var scope = this;
+        cc.eventManager.addListener({
+            event: cc.EventListener.TOUCH_ALL_AT_ONCE,
+            onTouchesMoved: function (touches, event) {
+                var touch = touches[0];
+                var delta = touch.getDelta();
+                delta.y = 0;
+                console.log(delta);
+                //var node = event.getCurrentTarget().getChildByTag(TAG_TILE_MAP);
+                var node = scope.paddleSprite;
+                var diff = cc.pAdd(delta, node.getPosition());
+                if (diff.x<scope.paddleSize.width/2) {
+                    diff.x=scope.paddleSize.width/2;
+                }
+                if (diff.x>scope.winsize.width-scope.paddleSize.width/2) {
+                    diff.x=scope.winsize.width-scope.paddleSize.width/2;
+                }
+                node.setPosition(diff);
+            }
+        }, this);
     }
 });
