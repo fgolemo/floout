@@ -11,6 +11,7 @@ var AnimationLayer = cc.Layer.extend({
     ballSprite: null,
     ballSize: null,
     ballLaunched: false,
+    statusLayer: null,
 
     ctor: function (space) {
         this._super();
@@ -127,6 +128,10 @@ var AnimationLayer = cc.Layer.extend({
     collisionGroundBegin: function (arbiter, space) {
         console.log("ball is out");
         this.ballBody.setVel(cp.v(0, 0));
+        if (this.statusLayer == null) {
+            this.statusLayer = this.getParent().getParent().getChildByTag(TagOfLayer.Status);
+        }
+        this.statusLayer.removeLife();
         this.schedule(this.resetBall, 1, 0);
     }
 });

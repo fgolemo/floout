@@ -16,7 +16,7 @@ var PlayScene = cc.Scene.extend({
         this.gameLayer = new cc.Layer();
         this.gameLayer.addChild(new AnimationLayer(this.space), 0, TagOfLayer.Animation);
         this.addChild(this.gameLayer);
-        this.addChild(new StatusLayer(), 0, TagOfLayer.Status);
+        this.addChild(new StatusLayer(true), 0, TagOfLayer.Status);
         //this.addChild(new StatusLayer(), 0, TagOfLayer.Status);
 
         this.scheduleUpdate();
