@@ -10,7 +10,7 @@ var AnimationLayer = cc.Layer.extend({
         this.init();
 
         this._debugNode = new cc.PhysicsDebugNode(this.space);
-        this._debugNode.setVisible(false);
+        this._debugNode.setVisible(true);
         this.addChild(this._debugNode, 10);
     },
     init: function () {
@@ -30,7 +30,7 @@ var AnimationLayer = cc.Layer.extend({
         this.paddleBody.applyImpulse(cp.v(500, 500), cp.v(0, 100));//run speed
         this.space.addBody(this.paddleBody);
         //init shape
-        this.paddleShape = new cp.BoxShape(this.paddleBody, paddleSize.width - 14, paddleSize.height);
+        this.paddleShape = new cp.BoxShape(this.paddleBody, paddleSize.width, paddleSize.height);
         this.space.addShape(this.paddleShape);
 
         this.paddleSprite.setBody(this.paddleBody);

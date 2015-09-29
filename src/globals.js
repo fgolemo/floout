@@ -1,8 +1,8 @@
 g_borders = {
     top: 55,
     bottom: 50,
-    left: 1,
-    right: 1
+    left: 5,
+    right: 5
 };
 
 if (typeof TagOfLayer == "undefined") {

@@ -1,8 +1,9 @@
 var BackgroundLayer = cc.Layer.extend({
 
+    space: null,
     ctor: function (space) {
         this._super();
-
+        this.space = space;
         this.init();
     },
 
@@ -15,6 +16,34 @@ var BackgroundLayer = cc.Layer.extend({
         var spritebg = new cc.Sprite(res.bg);
         spritebg.setPosition(centerpos);
         this.addChild(spritebg);
+        this.setupWalls();
+    },
+    setupWalls: function(){
+        // set up Walls
+        var winsize = cc.director.getWinSize();
+        var wallBottom = new cp.SegmentShape(this.space.staticBody,
+            cp.v(g_borders.left, g_borders.bottom),// start point
+            cp.v(winsize.width-g_borders.right, g_borders.bottom),// MAX INT:4294967295
+            0);// thickness of wall
+        this.space.addStaticShape(wallBottom);
+
+        var wallTop = new cp.SegmentShape(this.space.staticBody,
+            cp.v(g_borders.left, winsize.height-g_borders.top),// start point
+            cp.v(winsize.width-g_borders.right, winsize.height-g_borders.top),// MAX INT:4294967295
+            0);// thickness of wall
+        this.space.addStaticShape(wallTop);
+
+        var wallLeft = new cp.SegmentShape(this.space.staticBody,
+            cp.v(g_borders.left, g_borders.bottom),// start point
+            cp.v(g_borders.left, winsize.height-g_borders.top),// MAX INT:4294967295
+            0);// thickness of wall
+        this.space.addStaticShape(wallLeft);
+
+        var wallRight = new cp.SegmentShape(this.space.staticBody,
+            cp.v(winsize.width-g_borders.right, g_borders.bottom),// start point
+            cp.v(winsize.width-g_borders.right, winsize.height-g_borders.top),// MAX INT:4294967295
+            0);// thickness of wall
+        this.space.addStaticShape(wallRight);
     }
 
 });
