@@ -131,7 +131,13 @@ var AnimationLayer = cc.Layer.extend({
         if (this.statusLayer == null) {
             this.statusLayer = this.getParent().getParent().getChildByTag(TagOfLayer.Status);
         }
-        this.statusLayer.removeLife();
-        this.schedule(this.resetBall, 1, 0);
+        if (this.statusLayer.scoreValues.lifes == 0) {
+            cc.director.pause();
+            this.addChild(new GameOverLayer());
+        } else {
+            this.statusLayer.removeLife();
+            this.schedule(this.resetBall, 1, 0);
+        }
+
     }
 });
