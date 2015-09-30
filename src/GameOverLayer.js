@@ -19,11 +19,7 @@ var GameOverLayer = cc.LayerColor.extend({
     },
     onRestart: function (sender) {
         cc.director.resume();
-        var playsceneOld = this.getParent().getParent().getParent();
-        var scoresBackup = playsceneOld.scoreBackup;
-        console.dir(scoresBackup);
         var playsceneNew = new PlayScene();
-        playsceneNew.scoreBackup = JSON.parse(JSON.stringify(scoresBackup));
         cc.director.runScene(playsceneNew);
 
 

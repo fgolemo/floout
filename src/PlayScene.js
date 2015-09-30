@@ -2,7 +2,6 @@ var PlayScene = cc.Scene.extend({
     space: null,
     shapesToRemove: [],
     gameLayer: null,
-    scoreBackup: null,
     statuslayer: null,
 
     // init space of chipmunk
@@ -20,14 +19,7 @@ var PlayScene = cc.Scene.extend({
         this.addChild(this.gameLayer);
         this.statuslayer = new StatusLayer(true);
         this.addChild(this.statuslayer, 0, TagOfLayer.Status);
-        if (this.scoreBackup == null) {
-            this.scoreBackup = JSON.parse(JSON.stringify(this.statuslayer.scoreValues));
-        } else {
-            this.statuslayer.scoreValues = JSON.parse(JSON.stringify(this.scoreBackup));
-        }
-
-        console.dir(this.scoreBackup);
-        //this.addChild(new StatusLayer(), 0, TagOfLayer.Status);
+        this.statuslayer.init();
 
         this.scheduleUpdate();
 

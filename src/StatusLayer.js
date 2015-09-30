@@ -19,17 +19,20 @@ var StatusLayer = cc.Layer.extend({
         level: 1,
         upgrades: []
     },
+    scoreBackup: null,
 
     realsies: true,
     ctor: function (realsies) {
         this._super();
         self.realsies = realsies;
-        this.init();
+        if (this.scoreBackup == null) {
+            this.scoreBackup = JSON.parse(JSON.stringify(this.scoreValues));
+        }
     },
 
     init: function () {
         this._super();
-
+        this.scoreValues = JSON.parse(JSON.stringify(this.scoreBackup));
         this.winsize = cc.director.getWinSize();
         this.drawLabels();
         if (this.realsies) {

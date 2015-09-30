@@ -35,7 +35,9 @@ var MenuLayer = cc.Layer.extend({
         menu.setPosition(buttonpos);
         this.addChild(menu);
 
-        this.addChild(new StatusLayer(false), 0, TagOfLayer.Status);
+        var statusLayer = new StatusLayer(false);
+        this.addChild(statusLayer, 0, TagOfLayer.Status);
+        statusLayer.init();
     },
 
     onPlay: function () {
