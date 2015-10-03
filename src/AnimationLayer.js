@@ -19,7 +19,8 @@ var AnimationLayer = cc.Layer.extend({
         this.init();
 
         this._debugNode = new cc.PhysicsDebugNode(this.space);
-        this._debugNode.setVisible(true);
+        this._debugNode.setVisible(false);
+        //this._debugNode.setVisible(true);
         this.addChild(this._debugNode, 10);
     },
     init: function () {

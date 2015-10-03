@@ -15,16 +15,17 @@ var StatusLayer = cc.Layer.extend({
     },
     scoreValues: {
         score: "0",
-        lifes: 1,
+        lifes: 3,
         level: 1,
         upgrades: []
     },
     scoreBackup: null,
 
+
     realsies: true,
     ctor: function (realsies) {
         this._super();
-        self.realsies = realsies;
+        this.realsies = realsies;
         if (this.scoreBackup == null) {
             this.scoreBackup = JSON.parse(JSON.stringify(this.scoreValues));
         }
